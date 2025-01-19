@@ -16,11 +16,11 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	
 	// CHỈNH GIÁ TRỊ CỦA Ô VÀ BẢNG TRONG PANEL
-	final public int titleSize = originalTitleSize*scale; // 48x48
-	final int maxScreenCol = 16;
-	final int maxScreenRow = 12;
-	final int ScreenWidth = titleSize * maxScreenCol;
-	final int ScreenHeight = titleSize * maxScreenRow;
+	public final int titleSize = originalTitleSize*scale; // 48x48
+	public final int maxScreenCol = 16;
+	public final int maxScreenRow = 12;
+	public final int ScreenWidth = titleSize * maxScreenCol;
+	public final int ScreenHeight = titleSize * maxScreenRow;
 	
 	// FPS 
 	int FPS = 60;
