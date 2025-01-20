@@ -40,6 +40,7 @@ public class TileManager {
     }
     
     public void loadMap() {
+    	
     	try {
     		InputStream is = getClass().getResourceAsStream("/map/map01.txt");
     		BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -58,42 +59,43 @@ public class TileManager {
     				
     				mapTileNum[col][row] = num;
     				col++;
-    			}
+    			}	
     			if(col == gp.maxScreenCol) {
     				col = 0; 
-    				row += 1;				
+    				row++;				
     			}
-    			br.close(); // close 
     		}
+    			br.close(); // close 
     	}catch(Exception e) {
     		
     	}
     }
     
     
-    public void draw(Graphics2D g2) {
-    	
-    	int col = 0; int row = 0; int x = 0, y= 0;
-    	
-    	while(col < gp.maxScreenCol && row < gp.maxScreenRow) {
-    		
-    		
-    		int tileNum = mapTileNum[col][row]; // dữ liệu map đã được lưu vào array
-    		
-    		g2.drawImage(tile[tileNum].image, x, y, gp.titleSize,gp.titleSize,null);
-    		col++; 
-    		x += gp.titleSize;
-    		
-    		if(col == gp.maxScreenCol) {
-    			col = 0; x = 0;
-    			row++;
-    			y += gp.titleSize;
-    		}
-    	}
+    public void draw(Graphics2D g2){
+        int col = 0;
+        int row = 0;
+        int x = 0;
+        int y = 0;
+
+        while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
+        	
+            int tileNum = mapTileNum[col][row];
+
+            g2.drawImage(tile[tileNum].image, x, y, gp.titleSize, gp.titleSize, null);
+            col++;
+            x += gp.titleSize;
+
+            if (col == gp.maxScreenCol) {
+                col = 0;
+                x = 0;
+                row++;
+                y += gp.titleSize;
+            }
+        }
+    }
+
     }
     
     
-    
-    
-    
-}
+  
