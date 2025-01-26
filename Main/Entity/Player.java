@@ -25,7 +25,8 @@ public class Player extends Entity {
 	
 	public void setDefaultValue() {
 		
-		x = 100; y = 100;
+		worldX = gp.titleSize * 20;
+		worldY = gp.titleSize * 20;
 		speed = 4;
 		direction = "down";
 	}
@@ -42,17 +43,17 @@ public class Player extends Entity {
 	public void update() {
 		if(keyH.upPressed == true) {
 			direction  = "up";
-			y -= speed;
+			worldX -= speed;
 		}
 		else if(keyH.downPressed == true) {
 			direction = "down";
-			y += speed;
+			worldX += speed;
 		}
 		else if(keyH.rightPressed == true) {
-			x += speed;
+			worldX += speed;
 		}
 		else if(keyH.leftPressed == true) {
-			x -= speed;
+			worldX -= speed;
 		}
 	}
 	public void draw(Graphics2D g2) {
@@ -70,7 +71,7 @@ public class Player extends Entity {
 			break;	
 		}
 		
-		g2.drawImage(image, x, y, gp.titleSize,gp.titleSize,null);
+		g2.drawImage(image, worldX, worldX, gp.titleSize,gp.titleSize,null);
 	}
 }
 
