@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
 	Thread gameThread; // start and stop, keep your program running
 	public Player player = new Player(this,keyH);
 	TileManager tileM = new TileManager(this);
-	
+	public CollisionChecker cChecker = new CollisionChecker(this);
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(ScreenWidth,ScreenHeight));
 		this.setBackground(Color.black); // MÀU BACKGROUND

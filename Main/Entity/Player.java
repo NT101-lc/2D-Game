@@ -2,6 +2,7 @@ package Entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -22,6 +23,13 @@ public class Player extends Entity {
 		this.keyH = keyH;
 		screenX = gp.ScreenWidth/2 - (gp.titleSize/2);
 		screenY = gp.ScreenHeight/2 - (gp.titleSize/2);
+		
+		solidArea = new Rectangle();
+		solidArea.x = 8;
+		solidArea.y = 16;
+		solidArea.width = 16;
+		solidArea.height = 16;
+
 		setDefaultValue();
 		getPlayerImage();
 	}
@@ -39,25 +47,41 @@ public class Player extends Entity {
 		try {
 			up = ImageIO.read(getClass().getResourceAsStream("/Player/up.png"));
 			down = ImageIO.read(getClass().getResourceAsStream("/Player/down.png"));
+			left = ImageIO.read(getClass().getResourceAsStream("/Player/down.png"));
+			right = ImageIO.read(getClass().getResourceAsStream("/Player/down.png"));
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void update() {
+		if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed) {
 		if(keyH.upPressed == true) {
 			direction  = "up";
-			worldY -= speed;
 		}
 		else if(keyH.downPressed == true) {
 			direction = "down";
-			worldY += speed;
 		}
 		else if(keyH.rightPressed == true) {
-			worldX += speed;
+			direction = "right";
 		}
 		else if(keyH.leftPressed == true) {
-			worldX -= speed;
+			direction = "left";
+		}
+		
+		collisionOn = false;
+		gp.cChecker.CheckTile(this);
+		
+		
+		// IF COLLISION FALSE, PLAYER CAN MOVE
+		if(collisionOn == false) {
+			switch(direction) {
+			case "up":worldY -= speed;break;
+			case "down":worldY += speed;break;
+			case "left":worldX -= speed;;break;
+			case "right":worldX += speed;break;
+			}
+		}
 		}
 	}
 	public void draw(Graphics2D g2) {
@@ -73,6 +97,12 @@ public class Player extends Entity {
 		case "down":
 			image = down;
 			break;	
+		case "left":
+			image = left;
+			break;
+		case "right":
+			image = right;
+			break;
 		}
 		
 		g2.drawImage(image, screenY, screenY, gp.titleSize,gp.titleSize,null);
