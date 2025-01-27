@@ -28,9 +28,9 @@ public class Player extends Entity {
 	
 	
 	public void setDefaultValue() {
-		
-		worldX = gp.titleSize * 20;
-		worldY = gp.titleSize * 20;
+		// CHINH VI TRI SPAWN
+		worldX = gp.titleSize * 16;
+		worldY = gp.titleSize * 16;
 		speed = 4;
 		direction = "down";
 	}
@@ -47,11 +47,11 @@ public class Player extends Entity {
 	public void update() {
 		if(keyH.upPressed == true) {
 			direction  = "up";
-			worldX -= speed;
+			worldY -= speed;
 		}
 		else if(keyH.downPressed == true) {
 			direction = "down";
-			worldX += speed;
+			worldY += speed;
 		}
 		else if(keyH.rightPressed == true) {
 			worldX += speed;

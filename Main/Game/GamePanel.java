@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
 	// LIÊN KẾT VỚI CLASS KHÁC
 	KeyHandle keyH = new KeyHandle();
 	Thread gameThread; // start and stop, keep your program running
-	Player player = new Player(this,keyH);
+	public Player player = new Player(this,keyH);
 	TileManager tileM = new TileManager(this);
 	
 	public GamePanel() {
