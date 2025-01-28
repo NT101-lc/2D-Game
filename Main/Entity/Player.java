@@ -21,12 +21,12 @@ public class Player extends Entity {
 	public Player(GamePanel gp, KeyHandle keyH) {
 		this.gp = gp;
 		this.keyH = keyH;
-		screenX = gp.ScreenWidth/2 - (gp.titleSize/2);
-		screenY = gp.ScreenHeight/2 - (gp.titleSize/2);
+		screenX = gp.ScreenWidth/2 - (gp.tileSize/2);
+		screenY = gp.ScreenHeight/2 - (gp.tileSize/2);
 		
 		solidArea = new Rectangle();
 		solidArea.x = 8;
-		solidArea.y = 16;
+		solidArea.y = 32;
 		solidArea.width = 16;
 		solidArea.height = 16;
 
@@ -37,8 +37,8 @@ public class Player extends Entity {
 	
 	public void setDefaultValue() {
 		// CHINH VI TRI SPAWN
-		worldX = gp.titleSize * 16;
-		worldY = gp.titleSize * 16;
+		worldX = gp.tileSize * 16;
+		worldY = gp.tileSize * 16;
 		speed = 4;
 		direction = "down";
 	}
@@ -56,32 +56,29 @@ public class Player extends Entity {
 	
 	public void update() {
 		if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed) {
-		if(keyH.upPressed == true) {
-			direction  = "up";
-		}
-		else if(keyH.downPressed == true) {
-			direction = "down";
-		}
-		else if(keyH.rightPressed == true) {
-			direction = "right";
-		}
-		else if(keyH.leftPressed == true) {
-			direction = "left";
-		}
+			
+			if(keyH.upPressed == true) {
+				direction  = "up";}
+			else if(keyH.downPressed == true) {
+				direction = "down";}
+			else if(keyH.rightPressed == true) {
+				direction = "right";}
+			else if(keyH.leftPressed == true) {
+				direction = "left";}
 		
-		collisionOn = false;
-		gp.cChecker.CheckTile(this);
+			collisionOn = false;
+			gp.cChecker.CheckTile(this);
 		
 		
-		// IF COLLISION FALSE, PLAYER CAN MOVE
-		if(collisionOn == false) {
-			switch(direction) {
-			case "up":worldY -= speed;break;
-			case "down":worldY += speed;break;
-			case "left":worldX -= speed;;break;
-			case "right":worldX += speed;break;
+			// IF COLLISION FALSE, PLAYER CAN MOVE
+			if(collisionOn == false) {
+				switch(direction) {
+				case "up":worldY -= speed;break;
+				case "down":worldY += speed;break;
+				case "left":worldX -= speed;break;
+				case "right":worldX += speed;break;
+				}
 			}
-		}
 		}
 	}
 	public void draw(Graphics2D g2) {
@@ -105,7 +102,7 @@ public class Player extends Entity {
 			break;
 		}
 		
-		g2.drawImage(image, screenY, screenY, gp.titleSize,gp.titleSize,null);
+		g2.drawImage(image, screenY, screenY, gp.tileSize,gp.tileSize,null);
 	}
 }
 
