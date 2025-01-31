@@ -17,6 +17,8 @@ public class Player extends Entity {
 	
 	public final int screenX;
 	public final int screenY;
+	public int GKey = 0;
+	int SKey = 0;
 	
 	public Player(GamePanel gp, KeyHandle keyH) {
 		this.gp = gp;
@@ -26,11 +28,15 @@ public class Player extends Entity {
 		// SỬA AREA CỦA COLLISION HITBOX
 		
 		solidArea = new Rectangle();
+		//HỘP COLLISION CHECK
 		solidArea.x = 16;
 		solidArea.y = 32;
 		solidArea.width = 16;
-		solidArea.height = 16;
-
+		solidArea.height = 12;
+		//set gia tri co ban de chinh trong phan check object collision
+		solidAreaDefaultX = solidArea.x;
+		solidAreaDefaultY = solidArea.y;
+		
 		setDefaultValue();
 		getPlayerImage();
 	}
@@ -38,12 +44,12 @@ public class Player extends Entity {
 	
 	public void setDefaultValue() {
 		// CHINH VI TRI SPAWN
-		worldX = (gp.tileSize * 23);
-		worldY = gp.tileSize * 23;
+		worldX = (gp.tileSize * 14);
+		worldY = gp.tileSize * 16;
 		speed = 4;
 		direction = "down";
 	}
-	
+	// UP HOẠT ẢNH NHÂN VẬT
 	public void getPlayerImage() {
 		try {
 			up = ImageIO.read(getClass().getResourceAsStream("/Player/up.png"));
@@ -54,7 +60,7 @@ public class Player extends Entity {
 			e.printStackTrace();
 		}
 	}
-	
+	// CHỈNH CÁC KEY MOVEMENT
 	public void update() {
 		if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed) {
 			
@@ -66,11 +72,14 @@ public class Player extends Entity {
 				direction = "right";}
 			else if(keyH.leftPressed == true) {
 				direction = "left";}
-		
+			// CHECK TILE COLLISION
 			collisionOn = false;
 			gp.cChecker.CheckTile(this);
-		
-		
+			//CHECK OBJECT COLLISION
+			int objIndex = gp.cChecker.checkObject(this, true);
+			pickUpObject(objIndex);
+			
+			
 			// IF COLLISION FALSE, PLAYER CAN MOVE
 			if(collisionOn == false) {
 				switch(direction) {
@@ -82,6 +91,47 @@ public class Player extends Entity {
 			}
 		}
 	}
+	
+	// HÀM CHECK ĐỂ NHẶT VÀ TÁC ĐỘNG VỚI VẬT PHẨM
+	public void pickUpObject(int i) {
+		if(i != 999) {
+			String objectName = gp.obj[i].name;
+			switch(objectName) {
+			case "GKey":
+				GKey++;
+				gp.obj[i] = null;
+				gp.ui.showMessage("You have received a key!");
+				break;
+			case "Door":
+				if(SKey > 0) {
+					gp.obj[i] = null;
+					SKey--;
+				}
+				else {
+					gp.ui.showMessage("You need key");
+				}
+				break;
+			case "Chest":
+				gp.ui.gameFinished = true;
+				if(GKey > 0) {
+					gp.obj[i] = null;
+					GKey--;
+				}
+				gp.ui.showMessage("You have found the treasure!!");
+				break;
+			case "SKey":
+				SKey++;
+				gp.obj[i] = null;
+				break;
+			case "Apple":
+				gp.playSE(0);
+				speed += 10;
+				gp.ui.showMessage("faster!");
+				gp.obj[i] = null; break;
+			}
+		}
+	}
+	
 	public void draw(Graphics2D g2) {
 		BufferedImage image = null;
 		switch(direction) {
@@ -100,6 +150,10 @@ public class Player extends Entity {
 		}
 		
 		g2.drawImage(image, screenX, screenY, gp.tileSize,gp.tileSize,null);
+		
+		// PHẦN NÀY DÙNG ĐỂ BẬT HITBOX CHO COLLISION, BẬT LÊN KHI CẦN CHECK COLLISION BOX ONLY
+		g2.setColor(Color.red);
+		g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 	}
 }
 

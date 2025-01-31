@@ -49,44 +49,31 @@ public class TileManager {
             e.printStackTrace();
         }
     }
-    
+    // VẼ MAP, KHÔNG CẦN ĐỘNG VÀO MẤY
     public void loadMap() {
     	
     	try {
     		InputStream is = getClass().getResourceAsStream("/map/map01.txt");
     		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-    		
-    		int col = 0, row = 0;
-    		
+    		int col = 0,row = 0;
     		while(col < gp.maxWorldCol && row < gp.maxWorldRow) {
     			
     			String line = br.readLine(); // READ LINE FROM THE TEXT FILE
-    			
     			while(col < gp.maxWorldCol) {
-    				
     				String numbers[] = line.split(" "); // chia cách các space trong 0 1 0 0 1
-    				
     				int num = Integer.parseInt(numbers[col]); // chuyển từ string qua int
-    				
-    				mapTileNum[col][row] = num;
-    				col++;
+    				mapTileNum[col][row] = num; col++;
     			}	
     			if(col == gp.maxWorldCol) {
-    				col = 0; 
-    				row++;				
+    				col = 0; row++;}
     			}
-    		}
     			br.close(); // close 
-    	}catch(Exception e) {
-    		
-    	}
+    	}catch(Exception e) {}
     }
-    
-    
+    // HÃM VẼ SCREEN VÀ WORLD KHI DI CHUYỂN
     public void draw(Graphics2D g2){
         int worldCol = 0;
         int worldRow = 0;
-
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
         	
             int tileNum = mapTileNum[worldCol][worldRow];

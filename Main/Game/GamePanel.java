@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import Entity.Player;
+import Objects.SuperObject;
 import Tile.TileManager;
 
 
@@ -25,19 +26,29 @@ public class GamePanel extends JPanel implements Runnable{
 	//WORLD SeTTIngs
 	public final int maxWorldCol = 32;
 	public final int maxWorldRow = 32;
-	public final int worldWidth = tileSize * maxWorldCol;
-	public final int worldHeight = tileSize * maxWorldRow;
 	
 	// FPS 
 	int FPS = 60;
 	
 	
 	// LIÊN KẾT VỚI CLASS KHÁC
-	KeyHandle keyH = new KeyHandle();
-	Thread gameThread; // start and stop, keep your program running
-	public Player player = new Player(this,keyH);
+	// SYSTEM
 	TileManager tileM = new TileManager(this);
+	KeyHandle keyH = new KeyHandle();
+	Sound music = new Sound();
+	Sound se = new Sound();
 	public CollisionChecker cChecker = new CollisionChecker(this);
+	public AssetSetter aSetter = new AssetSetter(this);
+	public UI ui = new UI(this);
+	Thread gameThread;
+	
+	
+	// ENTITY AND OBJECT
+	public Player player = new Player(this,keyH);
+	public SuperObject obj[] = new SuperObject[10]; // 10 slots for the objects, display 10 objects at the same time
+	
+	
+	// TẠO CỬA SỔ 
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(ScreenWidth,ScreenHeight));
 		this.setBackground(Color.black); // MÀU BACKGROUND
@@ -45,14 +56,17 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
 	}
+	// QUẢN LÍ OBJECT
+	public void setupGame() {
+		aSetter.setObject();	
+	}
 	
 	public void startGameThread() {
 		// passing gamepanel in this constructor
 		gameThread = new Thread(this);
 		gameThread.start(); // call the run method
 	}
-	
-	
+
 	
 	// LOOP GAME
 	@Override
@@ -90,24 +104,61 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
+		player.update();}
 	
-		player.update();
-	}
-	
-	
+	//VẼ 
+	// THƯỜNG CẦN SẮP XẾP CÁC METHOD VÌ NÓ ẢNH HƯỞNG ĐẾN LAYER DẪN ĐẾN CÁI GÌ CẦN VẼ TRƯỚC VÀ VẼ SAU
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g); 
 		Graphics2D g2 =  (Graphics2D)g;
-		
+		// TILE
 		tileM.draw(g2);
+		// VE OBJ
+		for(int i = 0 ; i < obj.length ; i++) {
+			if(obj[i] != null) {
+				obj[i].draw(g2, this);
+			}
+		}
 		
+		// VE PLAYER
 		player.draw(g2);
+		//UI
+		ui.draw(g2);
 		
+		//END
 		g2.dispose();
+	}
+
+	// DÙNG ĐỂ BẮT ĐẦU NHẠC VÀ LOOP TRONG SUỐT QUÁ TRÌNH CHƠI GAME
+	public void playMusic(int i) {
+		music.setFile(i);
+		music.play();
+		music.loop();
 		
 	}
+	// DỪNG NHẠC, THƯỜNG DÙNG VỚI METHOD TRÊN
+	public void stopMusic(int i) {
+		music.stop();
+	}
+	// DÙNG ĐỂ SỬ DỤNG 1 ĐOẠN NHẠC NGẮN - SOUND EFFECT
+	public void playSE(int i) {
+		se.setFile(i);
+		se.play();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
