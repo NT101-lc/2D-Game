@@ -30,9 +30,9 @@ public class Player extends Entity {
 		solidArea = new Rectangle();
 		//HỘP COLLISION CHECK
 		solidArea.x = 16;
-		solidArea.y = 32;
+		solidArea.y = 12;
 		solidArea.width = 16;
-		solidArea.height = 12;
+		solidArea.height = 32;
 		//set gia tri co ban de chinh trong phan check object collision
 		solidAreaDefaultX = solidArea.x;
 		solidAreaDefaultY = solidArea.y;
@@ -52,10 +52,14 @@ public class Player extends Entity {
 	// UP HOẠT ẢNH NHÂN VẬT
 	public void getPlayerImage() {
 		try {
-			up = ImageIO.read(getClass().getResourceAsStream("/Player/up.png"));
-			down = ImageIO.read(getClass().getResourceAsStream("/Player/down.png"));
-			left = ImageIO.read(getClass().getResourceAsStream("/Player/down.png"));
-			right = ImageIO.read(getClass().getResourceAsStream("/Player/down.png"));
+			up1 = ImageIO.read(getClass().getResourceAsStream("/Player/up1.png"));
+			up2 = ImageIO.read(getClass().getResourceAsStream("/Player/up2.png"));
+			left1 = ImageIO.read(getClass().getResourceAsStream("/Player/left1.png"));
+			left2 = ImageIO.read(getClass().getResourceAsStream("/Player/left2.png"));
+			right1 = ImageIO.read(getClass().getResourceAsStream("/Player/right1.png"));
+			right2 = ImageIO.read(getClass().getResourceAsStream("/Player/right2.png"));
+			down1 = ImageIO.read(getClass().getResourceAsStream("/Player/down1.png"));
+			down2 = ImageIO.read(getClass().getResourceAsStream("/Player/down2.png"));
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -63,15 +67,10 @@ public class Player extends Entity {
 	// CHỈNH CÁC KEY MOVEMENT
 	public void update() {
 		if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed) {
-			
-			if(keyH.upPressed == true) {
-				direction  = "up";}
-			else if(keyH.downPressed == true) {
-				direction = "down";}
-			else if(keyH.rightPressed == true) {
-				direction = "right";}
-			else if(keyH.leftPressed == true) {
-				direction = "left";}
+			if(keyH.upPressed == true) {direction  = "up";}
+			else if(keyH.downPressed == true) {direction = "down";}
+			else if(keyH.rightPressed == true) {direction = "right";}
+			else if(keyH.leftPressed == true) {direction = "left";}
 			// CHECK TILE COLLISION
 			collisionOn = false;
 			gp.cChecker.CheckTile(this);
@@ -88,8 +87,18 @@ public class Player extends Entity {
 				case "left":worldX -= speed;break;
 				case "right":worldX += speed;break;
 				}
+			}spriteCounter++;
+		if(spriteCounter > 12) {
+			if(spriteNum == 1) {
+				spriteNum = 2;
 			}
+			else if(spriteNum == 2) {
+				spriteNum = 1;
+			}
+			spriteCounter = 0;
 		}
+		}
+		
 	}
 	
 	// HÀM CHECK ĐỂ NHẶT VÀ TÁC ĐỘNG VỚI VẬT PHẨM
@@ -125,8 +134,8 @@ public class Player extends Entity {
 				break;
 			case "Apple":
 				gp.playSE(0);
-				speed += 10;
-				gp.ui.showMessage("faster!");
+				speed += 2;
+				gp.ui.showMessage("speed +2!");
 				gp.obj[i] = null; break;
 			}
 		}
@@ -136,24 +145,44 @@ public class Player extends Entity {
 		BufferedImage image = null;
 		switch(direction) {
 		case "up":
-			image = up;
+			if(spriteNum == 1) {
+				image = up1;
+			}
+			if(spriteNum == 2) {
+				image = up2;
+			}
 			break;
 		case "down":
-			image = down;
+			if(spriteNum == 1) {
+				image = down1;
+			}
+			if(spriteNum == 2) {
+				image = down2;
+			}
 			break;	
 		case "left":
-			image = left;
+			if(spriteNum == 1) {
+				image = left1;
+			}
+			if(spriteNum == 2) {
+				image = left2;
+			}
 			break;
 		case "right":
-			image = right;
+			if(spriteNum == 1) {
+				image = right1;
+			}
+			if(spriteNum == 2) {
+				image = right2;
+			}
 			break;
 		}
 		
 		g2.drawImage(image, screenX, screenY, gp.tileSize,gp.tileSize,null);
 		
 		// PHẦN NÀY DÙNG ĐỂ BẬT HITBOX CHO COLLISION, BẬT LÊN KHI CẦN CHECK COLLISION BOX ONLY
-		g2.setColor(Color.red);
-		g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+		//g2.setColor(Color.red);
+		//g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 	}
 }
 
