@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import Game.GamePanel;
 import Game.KeyHandle;
+import Game.UtilityTool;
 
 public class Player extends Entity {
 	GamePanel gp;
@@ -44,26 +45,39 @@ public class Player extends Entity {
 	
 	public void setDefaultValue() {
 		// CHINH VI TRI SPAWN
-		worldX = (gp.tileSize * 14);
-		worldY = gp.tileSize * 16;
+		worldX = (gp.tileSize * 36);
+		worldY = gp.tileSize * 20;
 		speed = 4;
 		direction = "down";
 	}
 	// UP HOẠT ẢNH NHÂN VẬT
 	public void getPlayerImage() {
-		try {
-			up1 = ImageIO.read(getClass().getResourceAsStream("/Player/up1.png"));
-			up2 = ImageIO.read(getClass().getResourceAsStream("/Player/up2.png"));
-			left1 = ImageIO.read(getClass().getResourceAsStream("/Player/left1.png"));
-			left2 = ImageIO.read(getClass().getResourceAsStream("/Player/left2.png"));
-			right1 = ImageIO.read(getClass().getResourceAsStream("/Player/right1.png"));
-			right2 = ImageIO.read(getClass().getResourceAsStream("/Player/right2.png"));
-			down1 = ImageIO.read(getClass().getResourceAsStream("/Player/down1.png"));
-			down2 = ImageIO.read(getClass().getResourceAsStream("/Player/down2.png"));
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+			up1 = setup("up1");
+			up2 = setup("up2");
+			down1 = setup("down1");
+			down2 = setup("down2");
+			left1 = setup("left1");
+			left2 = setup("left2");
+			right1 = setup("right1");
+			right2 = setup("right2");
 	}
+	
+	//setup anh
+	public BufferedImage setup(String imageName) {
+	    UtilityTool uTool = new UtilityTool();
+	    BufferedImage image = null;
+
+	    try {
+	        image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
+	        image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return image;
+	}
+	
+	
 	// CHỈNH CÁC KEY MOVEMENT
 	public void update() {
 		if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed) {

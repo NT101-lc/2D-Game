@@ -5,9 +5,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import Game.GamePanel;
+import Game.UtilityTool;
 
 public class TileManager {
     GamePanel gp;
@@ -17,43 +19,74 @@ public class TileManager {
     
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        tile = new Tile[10];
+
+        tile = new Tile[50];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
    
         getTileImage();
         loadMap();
     }
+    //setup load anh
+    public void getTileImage() {   
+    	//PLACEHOLDER
+    		setup(0,"000",true); 
+    		setup(1,"001",true); 
+        	setup(2,"002",true); 
+        	setup(3,"003",true); 
+        	setup(4,"004",true); 
+        	setup(5,"005",true); 
+        	setup(6,"006",true); 
+        	setup(7,"007",true); 
+        	setup(8,"008",true); 
+        	setup(9,"009",true);
+        	setup(10,"010",true);
+        	setup(11,"011",true);
+        	setup(12,"012",true);
+        	setup(13,"013",true);
+        	setup(14,"014",true);
+        	setup(15,"015",false);
+        	setup(16,"016",false);
+        	setup(17,"017",false);
+        	setup(18,"018",false);
+        	setup(19,"019",false);
+        	setup(20,"020",false);
+        	setup(21,"021",false);
+        	setup(22,"022",false);
+        	setup(23,"023",false);
+        	setup(24,"024",false);
+        	setup(25,"025",false);
+        	setup(26,"026",false);
+        	setup(27,"027",false);
+        	setup(28,"028",false);
+        	setup(29,"029",false);
+        	setup(30,"030",false);
+        	setup(31,"031",true);
+        	setup(32,"032",false);
+        	setup(33,"033",true);
+        	setup(34,"034",true);
+        	setup(35,"035",true);
+        	
+        //
 
-    public void getTileImage() {
-        try {
-        	// GRASS TILE
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/title/grass.png"));
-            //BRICK TILE
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/title/brick.png"));
-            tile[1].collision = true;
-            //WATER TILE
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/title/water.png"));
-            tile[2].collision = true;
-            //TREE TILE
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/title/tree.png"));
-            tile[3].collision = true;            
-            //Rock TILE
-            tile[4] = new Tile();
-            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/title/rock.png"));
-            tile[4].collision = true;   
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
+    public void setup(int i, String imageName,boolean collision) {
+    	UtilityTool uTool = new UtilityTool();
+    	
+    	try {
+    		tile[i] = new Tile();
+    		tile[i].image = ImageIO.read(getClass().getResourceAsStream("/title/" + imageName + ".png"));
+    		tile[i].image = uTool.scaleImage(tile[i].image, gp.tileSize, gp.tileSize);
+    		tile[i].collision = collision;
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
     // VẼ MAP, KHÔNG CẦN ĐỘNG VÀO MẤY
     public void loadMap() {
     	
     	try {
-    		InputStream is = getClass().getResourceAsStream("/map/map01.txt");
+    		InputStream is = getClass().getResourceAsStream("/map/worldV2.txt");
     		BufferedReader br = new BufferedReader(new InputStreamReader(is));
     		int col = 0,row = 0;
     		while(col < gp.maxWorldCol && row < gp.maxWorldRow) {
@@ -88,7 +121,7 @@ public class TileManager {
                worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             
-            g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(tile[tileNum].image, screenX, screenY, null);
             }
             
             worldCol++;
