@@ -28,8 +28,14 @@ public class SuperObject {
            worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
         
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-        }
-        
-		
+        }	
 	}
+	
 }
+
+
+
+
+
+
+

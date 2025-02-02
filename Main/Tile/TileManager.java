@@ -20,7 +20,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
 
-        tile = new Tile[50];
+        tile = new Tile[60];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
    
         getTileImage();
@@ -44,14 +44,14 @@ public class TileManager {
         	setup(12,"012",true);
         	setup(13,"013",true);
         	setup(14,"014",true);
-        	setup(15,"015",false);
-        	setup(16,"016",false);
-        	setup(17,"017",false);
-        	setup(18,"018",false);
-        	setup(19,"019",false);
-        	setup(20,"020",false);
-        	setup(21,"021",false);
-        	setup(22,"022",false);
+        	setup(15,"015",true);
+        	setup(16,"016",true);
+        	setup(17,"017",true);
+        	setup(18,"018",true);
+        	setup(19,"019",true);
+        	setup(20,"020",true);
+        	setup(21,"021",true);
+        	setup(22,"022",true);
         	setup(23,"023",false);
         	setup(24,"024",false);
         	setup(25,"025",false);
@@ -60,11 +60,28 @@ public class TileManager {
         	setup(28,"028",false);
         	setup(29,"029",false);
         	setup(30,"030",false);
-        	setup(31,"031",true);
+        	setup(31,"031",false);
         	setup(32,"032",false);
-        	setup(33,"033",true);
-        	setup(34,"034",true);
-        	setup(35,"035",true);
+        	setup(33,"033",false);
+        	setup(34,"034",false);
+        	setup(35,"035",false);
+        	setup(36,"036",false);
+        	setup(37,"037",false);
+        	setup(38,"038",false);
+        	setup(39,"039",false);
+           	setup(40,"040",false);
+        	setup(41,"041",false);
+        	setup(42,"042",false);
+        	setup(43,"043",false);
+        	setup(44,"044",false);
+        	setup(45,"045",false);
+        	setup(46,"046",false);
+        	setup(47,"047",false);
+        	setup(48,"048",false);
+        	setup(49,"049",false);
+        	setup(50,"050",false);
+        	setup(51,"051",false);
+ 
         	
         //
 
@@ -86,7 +103,7 @@ public class TileManager {
     public void loadMap() {
     	
     	try {
-    		InputStream is = getClass().getResourceAsStream("/map/worldV2.txt");
+    		InputStream is = getClass().getResourceAsStream("/map/mapV3.txt");
     		BufferedReader br = new BufferedReader(new InputStreamReader(is));
     		int col = 0,row = 0;
     		while(col < gp.maxWorldCol && row < gp.maxWorldRow) {

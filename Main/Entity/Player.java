@@ -13,16 +13,12 @@ import Game.KeyHandle;
 import Game.UtilityTool;
 
 public class Player extends Entity {
-	GamePanel gp;
 	KeyHandle keyH;
-	
 	public final int screenX;
 	public final int screenY;
-	public int GKey = 0;
-	int SKey = 0;
 	
 	public Player(GamePanel gp, KeyHandle keyH) {
-		this.gp = gp;
+		super(gp);
 		this.keyH = keyH;
 		screenX = gp.ScreenWidth/2 - (gp.tileSize/2);
 		screenY = gp.ScreenHeight/2 - (gp.tileSize/2);
@@ -30,10 +26,10 @@ public class Player extends Entity {
 		
 		solidArea = new Rectangle();
 		//HỘP COLLISION CHECK
-		solidArea.x = 16;
-		solidArea.y = 12;
-		solidArea.width = 16;
-		solidArea.height = 32;
+		solidArea.x = 0;
+		solidArea.y = 0;
+		solidArea.width = 48;
+		solidArea.height = 48;
 		//set gia tri co ban de chinh trong phan check object collision
 		solidAreaDefaultX = solidArea.x;
 		solidAreaDefaultY = solidArea.y;
@@ -45,39 +41,22 @@ public class Player extends Entity {
 	
 	public void setDefaultValue() {
 		// CHINH VI TRI SPAWN
-		worldX = (gp.tileSize * 36);
+		worldX = (gp.tileSize * 17);
 		worldY = gp.tileSize * 20;
 		speed = 4;
 		direction = "down";
 	}
 	// UP HOẠT ẢNH NHÂN VẬT
 	public void getPlayerImage() {
-			up1 = setup("up1");
-			up2 = setup("up2");
-			down1 = setup("down1");
-			down2 = setup("down2");
-			left1 = setup("left1");
-			left2 = setup("left2");
-			right1 = setup("right1");
-			right2 = setup("right2");
+			up1 = setup("/Player/up1");
+			up2 = setup("/Player/up2");
+			down1 = setup("/Player/down1");
+			down2 = setup("/Player/down2");
+			left1 = setup("/Player/left1");
+			left2 = setup("/Player/left2");
+			right1 = setup("/Player/right1");
+			right2 = setup("/Player/right2");
 	}
-	
-	//setup anh
-	public BufferedImage setup(String imageName) {
-	    UtilityTool uTool = new UtilityTool();
-	    BufferedImage image = null;
-
-	    try {
-	        image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
-	        image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-
-	    return image;
-	}
-	
-	
 	// CHỈNH CÁC KEY MOVEMENT
 	public void update() {
 		if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed) {
@@ -91,6 +70,9 @@ public class Player extends Entity {
 			//CHECK OBJECT COLLISION
 			int objIndex = gp.cChecker.checkObject(this, true);
 			pickUpObject(objIndex);
+			//CHECK NPC'S COLISION
+			int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+			interactNPC(npcIndex);
 			
 			
 			// IF COLLISION FALSE, PLAYER CAN MOVE
@@ -118,40 +100,13 @@ public class Player extends Entity {
 	// HÀM CHECK ĐỂ NHẶT VÀ TÁC ĐỘNG VỚI VẬT PHẨM
 	public void pickUpObject(int i) {
 		if(i != 999) {
-			String objectName = gp.obj[i].name;
-			switch(objectName) {
-			case "GKey":
-				GKey++;
-				gp.obj[i] = null;
-				gp.ui.showMessage("You have received a key!");
-				break;
-			case "Door":
-				if(SKey > 0) {
-					gp.obj[i] = null;
-					SKey--;
-				}
-				else {
-					gp.ui.showMessage("You need key");
-				}
-				break;
-			case "Chest":
-				gp.ui.gameFinished = true;
-				if(GKey > 0) {
-					gp.obj[i] = null;
-					GKey--;
-				}
-				gp.ui.showMessage("You have found the treasure!!");
-				break;
-			case "SKey":
-				SKey++;
-				gp.obj[i] = null;
-				break;
-			case "Apple":
-				gp.playSE(0);
-				speed += 2;
-				gp.ui.showMessage("speed +2!");
-				gp.obj[i] = null; break;
-			}
+			//CODE
+		}
+	}
+	
+	public void interactNPC(int i) {
+		if(i != 999) {
+			System.out.println("hitting nigga!");
 		}
 	}
 	
@@ -195,8 +150,8 @@ public class Player extends Entity {
 		g2.drawImage(image, screenX, screenY, gp.tileSize,gp.tileSize,null);
 		
 		// PHẦN NÀY DÙNG ĐỂ BẬT HITBOX CHO COLLISION, BẬT LÊN KHI CẦN CHECK COLLISION BOX ONLY
-		//g2.setColor(Color.red);
-		//g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+		g2.setColor(Color.red);
+		g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 	}
 }
 

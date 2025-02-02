@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
+
+import Entity.Entity;
 import Entity.Player;
 import Objects.SuperObject;
 import Tile.TileManager;
@@ -34,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
 	// LIÊN KẾT VỚI CLASS KHÁC
 	// SYSTEM
 	TileManager tileM = new TileManager(this);
-	KeyHandle keyH = new KeyHandle();
+	KeyHandle keyH = new KeyHandle(this);
 	Sound music = new Sound();
 	Sound se = new Sound();
 	public CollisionChecker cChecker = new CollisionChecker(this);
@@ -46,7 +48,11 @@ public class GamePanel extends JPanel implements Runnable{
 	// ENTITY AND OBJECT
 	public Player player = new Player(this,keyH);
 	public SuperObject obj[] = new SuperObject[10]; // 10 slots for the objects, display 10 objects at the same time
-	
+	public Entity npc[] = new Entity[10];
+	//GAME STATE
+	public int GameState;
+	public final int playState = 1;
+	public final int pauseState = 2;
 	
 	// TẠO CỬA SỔ 
 	public GamePanel() {
@@ -59,6 +65,8 @@ public class GamePanel extends JPanel implements Runnable{
 	// QUẢN LÍ OBJECT
 	public void setupGame() {
 		aSetter.setObject();	
+		aSetter.setNpc();
+		GameState = playState;
 	}
 	
 	public void startGameThread() {
@@ -104,7 +112,19 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() {
-		player.update();}
+		if(GameState == 1) {
+			player.update();
+			//UPDATE NPC MOVEMENT
+			for(int i = 0 ; i < npc.length ; i++) {
+				if(npc[i] != null) {
+					npc[i].update();
+				}
+			}
+		}
+		if(GameState == pauseState) {
+			
+		}
+		}
 	
 	//VẼ 
 	// THƯỜNG CẦN SẮP XẾP CÁC METHOD VÌ NÓ ẢNH HƯỞNG ĐẾN LAYER DẪN ĐẾN CÁI GÌ CẦN VẼ TRƯỚC VÀ VẼ SAU
@@ -120,7 +140,12 @@ public class GamePanel extends JPanel implements Runnable{
 				obj[i].draw(g2, this);
 			}
 		}
-		
+		//NPC
+		for(int i = 0 ; i < npc.length ; i++) {
+			if(npc[i] != null) {
+				npc[i].draw(g2);
+			}
+		}
 		// VE PLAYER
 		player.draw(g2);
 		//UI
