@@ -81,8 +81,8 @@ public class TileManager {
         	setup(49,"049",false);
         	setup(50,"050",false);
         	setup(51,"051",false);
- 
-        	
+        	setup(52,"052",false);
+        	setup(53,"053",false);
         //
 
     }

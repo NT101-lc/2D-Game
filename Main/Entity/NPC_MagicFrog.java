@@ -17,6 +17,7 @@ public class NPC_MagicFrog extends Entity {
 		speed = 1;
 		
 		getImage();
+		setDialogue();
 	}
 	public void getImage() {
 		up1 = setup("/npc/frogup1");
@@ -28,6 +29,14 @@ public class NPC_MagicFrog extends Entity {
 		right1 = setup("/npc/frogright1");
 		right2 = setup("/npc/frogright2");
 	}
+	
+	public void setDialogue() {
+		dialogues[0] = "Hello, lad";
+		dialogues[1] = "Go find the key";
+		dialogues[2] = "And save";
+		dialogues[3] = "The village";
+	}
+	
 	// AI CHO NPC VÀ NHỨNG RANDOM MOVE OR SMT LIKE THAT IDK
 	public void setAction() {
 		
@@ -53,6 +62,10 @@ public class NPC_MagicFrog extends Entity {
 		}
 		
 		
+	}
+	
+	public void speak() {
+		super.speak();
 	}
 }
 

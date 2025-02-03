@@ -12,35 +12,29 @@ import Tile.TileManager;
 
 
 public class GamePanel extends JPanel implements Runnable{
-	
 	//SCREEN SETTING
 	final int originalTileSize = 16;
 	final int scale = 3;
-	
-	
 	// CHỈNH GIÁ TRỊ CỦA Ô VÀ BẢNG TRONG PANEL
 	public final int tileSize = originalTileSize*scale; // 48x48
 	public final int maxScreenCol = 16;
 	public final int maxScreenRow = 12;
 	public final int ScreenWidth = tileSize * maxScreenCol;	
 	public final int ScreenHeight = tileSize * maxScreenRow;
-	
 	//WORLD SeTTIngs
 	public int maxWorldCol = 50;
 	public int maxWorldRow = 50;
-	
 	// FPS 
 	int FPS = 60;
-	
-	
 	// LIÊN KẾT VỚI CLASS KHÁC
 	// SYSTEM
 	TileManager tileM = new TileManager(this);
-	KeyHandle keyH = new KeyHandle(this);
+	public KeyHandle keyH = new KeyHandle(this);
 	Sound music = new Sound();
 	Sound se = new Sound();
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public AssetSetter aSetter = new AssetSetter(this);
+	public EventHandle eHandle = new EventHandle(this);
 	public UI ui = new UI(this);
 	Thread gameThread;
 	
@@ -50,9 +44,11 @@ public class GamePanel extends JPanel implements Runnable{
 	public SuperObject obj[] = new SuperObject[10]; // 10 slots for the objects, display 10 objects at the same time
 	public Entity npc[] = new Entity[10];
 	//GAME STATE
+	public final int titleState = 0;
 	public int GameState;
 	public final int playState = 1;
 	public final int pauseState = 2;
+	public final int dialogueState = 3;
 	
 	// TẠO CỬA SỔ 
 	public GamePanel() {
@@ -66,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void setupGame() {
 		aSetter.setObject();	
 		aSetter.setNpc();
-		GameState = playState;
+		GameState = titleState;
 	}
 	
 	public void startGameThread() {
@@ -132,7 +128,13 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		super.paintComponent(g); 
 		Graphics2D g2 =  (Graphics2D)g;
-		// TILE
+		
+		
+		if(GameState == titleState) {
+			ui.draw(g2);
+		}
+		else {
+			// TILE
 		tileM.draw(g2);
 		// VE OBJ
 		for(int i = 0 ; i < obj.length ; i++) {
@@ -153,6 +155,8 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		//END
 		g2.dispose();
+		}
+		
 	}
 
 	// DÙNG ĐỂ BẮT ĐẦU NHẠC VÀ LOOP TRONG SUỐT QUÁ TRÌNH CHƠI GAME
