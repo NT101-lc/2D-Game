@@ -4,25 +4,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Entity.Entity;
 import Game.GamePanel;
 
-public class OBJ_Heart extends SuperObject {
-	GamePanel gp;
-	
+public class OBJ_Heart extends Entity {
 	public OBJ_Heart(GamePanel gp) {
-		this.gp = gp;
+		super(gp);
 		
 		name = "Heart";
-		try{
-			image = ImageIO.read(getClass().getResourceAsStream("/object/heart-full.png"));
-			image2 = ImageIO.read(getClass().getResourceAsStream("/object/heart-half.png"));
-			image3 = ImageIO.read(getClass().getResourceAsStream("/object/heart-empty.png"));
-			image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-			image2 = uTool.scaleImage(image2, gp.tileSize, gp.tileSize);
-			image3 = uTool.scaleImage(image3, gp.tileSize, gp.tileSize);
-
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+		image = setup("/object/heart-full");
+		image2 = setup("/object/heart-half");
+		image3 = setup("/object/heart-empty");
+		
 	}
 }

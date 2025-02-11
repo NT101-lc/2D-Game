@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 
 import Objects.OBJ_GKey;
 import Objects.OBJ_Heart;
-import Objects.SuperObject;
+import Entity.Entity;
 
 // THIS CLASS HANDLE ALL THE ON-SCREEN UI
 // LIKE TEXT, ITEM ICON, HEART,...
@@ -43,7 +43,7 @@ public class UI {
 			e.printStackTrace();
 		}
 		//CREATE HUG OBJECT
-		SuperObject heart = new OBJ_Heart(gp);
+		Entity heart = new OBJ_Heart(gp);
 		heart_full = heart.image;
 		heart_half = heart.image2;
 		heart_empty = heart.image3;

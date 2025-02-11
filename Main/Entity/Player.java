@@ -1,6 +1,8 @@
 package Entity;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -26,10 +28,10 @@ public class Player extends Entity {
 		
 		solidArea = new Rectangle();
 		//HỘP COLLISION CHECK
-		solidArea.x = 0;
-		solidArea.y = 0;
-		solidArea.width = 48;
-		solidArea.height = 48;
+		solidArea.x = 12;
+		solidArea.y = 12;
+		solidArea.width = 24;
+		solidArea.height = 32;
 		//set gia tri co ban de chinh trong phan check object collision
 		solidAreaDefaultX = solidArea.x;
 		solidAreaDefaultY = solidArea.y;
@@ -62,6 +64,7 @@ public class Player extends Entity {
 	}
 	// CHỈNH CÁC KEY MOVEMENT
 	public void update() {
+		
 		if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed) {
 			if(keyH.upPressed == true) {direction  = "up";}
 			else if(keyH.downPressed == true) {direction = "down";}
@@ -76,6 +79,9 @@ public class Player extends Entity {
 			//CHECK NPC'S COLISION
 			int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
 			interactNPC(npcIndex);
+			//CHECK MONSTER COLISION
+			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+			contactMob(monsterIndex);
 			//CHECK EVENT	
 			gp.eHandle.checkEvent();
 			
@@ -100,9 +106,27 @@ public class Player extends Entity {
 			spriteCounter = 0;
 		}
 		}
-		
+		//this need to be outside of key if statement
+		if(invincible == true) {
+			invincibleCounter++;
+			if(invincibleCounter >  60) {
+				invincible = false;
+				invincibleCounter =0;
+			}
+		}
 	}
 	
+	public void contactMob(int i) {
+		if(i != 999) {
+			if(invincible == false) {
+				life -= 1;
+				invincible=true;
+			}
+			
+		}
+	}
+
+
 	// HÀM CHECK ĐỂ NHẶT VÀ TÁC ĐỘNG VỚI VẬT PHẨM
 	public void pickUpObject(int i) {
 		if(i != 999) {
@@ -157,7 +181,13 @@ public class Player extends Entity {
 			break;
 		}
 		
+		if(invincible == true) {
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+		}
+		
 		g2.drawImage(image, screenX, screenY, gp.tileSize,gp.tileSize,null);
+		
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 		
 		// PHẦN NÀY DÙNG ĐỂ BẬT HITBOX CHO COLLISION, BẬT LÊN KHI CẦN CHECK COLLISION BOX ONLY
 		g2.setColor(Color.red);
