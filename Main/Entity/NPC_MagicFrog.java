@@ -29,7 +29,10 @@ public class NPC_MagicFrog extends Entity {
 		right1 = setup("/npc/frogright1");
 		right2 = setup("/npc/frogright2");
 	}
-	
+	/**
+	 * @effect
+	 * hàm dùng để chỉnh các câu thoại cho npc
+	 */
 	public void setDialogue() {
 		dialogues[0] = "Hello, lad";
 		dialogues[1] = "Go find the key";
@@ -37,7 +40,10 @@ public class NPC_MagicFrog extends Entity {
 		dialogues[3] = "The village";
 	}
 	
-	// AI CHO NPC VÀ NHỨNG RANDOM MOVE OR SMT LIKE THAT IDK
+	/**
+	 * @effect
+	 * AI của npc, chủ yếu là chỉnh random value để cho npc 1 phương hướng di chuyển
+	 */
 	public void setAction() {
 		
 		actionLockCounter++;

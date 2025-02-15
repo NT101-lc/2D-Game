@@ -61,6 +61,10 @@ public class Entity {
 			direction = "left"; break;
 		}
 	}
+	/**
+	 *@effect
+	 *hàm để check collision giữa các entity, đồng thời làm việc với player contect, như collision
+	 */
 	public void update() {
 		setAction();
 		
@@ -149,7 +153,13 @@ public class Entity {
         }	
 	}
 	
-	//setup anh
+	/**
+	 * @effect
+	 * đây là hàm dùng để load ảnh, chỉ cần gắn tên file là nó sẽ tự động load ảnh vào program
+	 * @param imagePath
+	 * @return
+	 * trả lại image, cũng đồng nghĩa là sẽ load ảnh lên màn để sử dụng
+	 */
 	public BufferedImage setup(String imagePath) {
 		UtilityTool uTool = new UtilityTool();
 		BufferedImage image = null;
