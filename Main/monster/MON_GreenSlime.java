@@ -4,6 +4,7 @@ import java.util.Random;
 
 import Entity.Entity;
 import Game.GamePanel;
+import utils.DomainConstraint;
 
 public class MON_GreenSlime extends Entity {
 	public MON_GreenSlime(GamePanel gp) {

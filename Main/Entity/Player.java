@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import Game.GamePanel;
 import Game.KeyHandle;
 import Game.UtilityTool;
+import utils.DomainConstraint;
 
 public class Player extends Entity {
 	KeyHandle keyH;
@@ -30,6 +31,7 @@ public class Player extends Entity {
 		/**
 		 * ========COLLISION BOX VARIABLE=========
 		 */
+		
 		solidArea.x = 12;
 		solidArea.y = 12;
 		solidArea.width = 24;
@@ -156,8 +158,9 @@ public class Player extends Entity {
 
 	/**
 	 * @effect
-	 * hàm dùng để tương tác với Object
+	 * <tt>hàm dùng để tương tác với Object
 	 * nhưng hiện tại Object kế thừa Entity nên có thể sẽ có bug
+	 * </tt>
 	 * @param i
 	 */
 	public void pickUpObject(int i) {

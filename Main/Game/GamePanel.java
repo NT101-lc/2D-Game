@@ -56,7 +56,11 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int pauseState = 2;
 	public final int dialogueState = 3;
 	
-	// TẠO CỬA SỔ 
+
+	/**
+	 * @effect
+	 * tạo cửa sổ vào set màu background
+	 */
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(ScreenWidth,ScreenHeight));
 		this.setBackground(Color.black); // MÀU BACKGROUND
@@ -64,6 +68,10 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
 	}
+	/**
+	 * @effect
+	 * liên kết đến hình ảnh và đưa vào cửa sổ game
+	 */
 	// QUẢN LÍ OBJECT
 	public void setupGame() {
 		aSetter.setObject();	
@@ -134,8 +142,13 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 		}
 	
-	//VẼ 
-	// THƯỜNG CẦN SẮP XẾP CÁC METHOD VÌ NÓ ẢNH HƯỞNG ĐẾN LAYER DẪN ĐẾN CÁI GÌ CẦN VẼ TRƯỚC VÀ VẼ SAU
+	/**
+	 * @effect
+	 * method dùng để vẽ, như là các ô, npc hay là nhân vật, method chính để load hình ảnh
+	 * phải sắp xếp thứ tự vẽ nếu không sẽ ảnh hưởng đến thứ tự của cảnh, npc trên hình
+	 * @attributes
+	 * GameState Integer
+	 */
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g); 
@@ -183,7 +196,7 @@ public class GamePanel extends JPanel implements Runnable{
 		for(int i = 0 ; i < entityList.size() ; i++) {
 			entityList.get(i).draw(g2);
 		}
-		//EMPTY THE LIST GODDAMN MTFK
+		//EMPTY THE LIST 
 		entityList.clear();
 		
 		//UI
@@ -192,18 +205,30 @@ public class GamePanel extends JPanel implements Runnable{
 		
 	}
 
-	// DÙNG ĐỂ BẮT ĐẦU NHẠC VÀ LOOP TRONG SUỐT QUÁ TRÌNH CHƠI GAME
+	/**
+	 * @effect
+	 * dùng để bắt đầu 1 file nhạc và loop nó trong suốt quá trình game
+	 * @param i
+	 */
 	public void playMusic(int i) {
 		music.setFile(i);
 		music.play();
 		music.loop();
 		
 	}
-	// DỪNG NHẠC, THƯỜNG DÙNG VỚI METHOD TRÊN
+	/**
+	 * @effect
+	 * dừng nhạc, thường dùng với method playMusic
+	 * @param i
+	 */
 	public void stopMusic(int i) {
 		music.stop();
 	}
-	// DÙNG ĐỂ SỬ DỤNG 1 ĐOẠN NHẠC NGẮN - SOUND EFFECT
+	/**
+	 * @effect
+	 * sound effect
+	 * @param i
+	 */
 	public void playSE(int i) {
 		se.setFile(i);
 		se.play();

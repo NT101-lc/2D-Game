@@ -1,0 +1,5 @@
+Entity là class điều chỉnh mob/npc
+Game là class chính điều chỉnh các class khác
+OBjects hiện tại đang kế thừa Entity nên có thể lỗi, trước đó kế thừa 1 class riêng
+Tile để chỉnh map các thứ
+3 file utils chủ yếu là để sử dụng annotations/chú thích của thầy t, để dễ nhìn là chính 

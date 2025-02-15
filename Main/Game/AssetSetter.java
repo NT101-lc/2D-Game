@@ -18,12 +18,19 @@ public class AssetSetter {
 	public void setObject() {
 		
 	}
-	
+	/**
+	 * @effect
+	 * sử dụng để cho npc lên map, dòng dưới dùng đêt set vị trí spawn của npc
+	 */
 	public void setNpc() {
 		gp.npc[0] = new NPC_MagicFrog(gp);
 		gp.npc[0].worldX = gp.tileSize * 21;
 		gp.npc[0].worldY = gp.tileSize * 21;
 	}
+	/**
+	 * @effect
+	 * như method trên nhưng thay vì npc thì là của quái/mob
+	 */
 	public void setMonster() {
 		gp.monster[0] = new MON_GreenSlime(gp);
 		gp.monster[0].worldX = gp.tileSize * 23;
